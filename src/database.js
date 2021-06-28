@@ -6,10 +6,10 @@ const argv = yargs(hideBin(process.argv)).argv
 
 const { MongoClient } = require('mongodb')
 
-let db
+let client
 
-async function getDb() {
-  if (db) return db // return existing db connection if exists
+module.exports.getDb = async () => {
+  if (client) return client // return existing db connection if exists
 
   if (!argv.configPath)
     throw new Error('hosted-happ-monitor requires --config-path option.')
@@ -24,17 +24,16 @@ async function getDb() {
   const url = `mongodb+srv://${username}:${password}@cluster0.hjwna.mongodb.net/${dbName}?retryWrites=true&w=majority`
 
   // Open db connection and store it in global db (instanton pattern)
-  console.log('Connecting to db...');
-  const client = new MongoClient(url)
+  console.log('Connecting to db...')
+  client = new MongoClient(url, {
+    useUnifiedTopology: true
+  })
   await client.connect()
   db = client.db(dbName)
   return db
 }
 
-
-
-module.exports.getCollections = async () => {
-  db = await getDb()
-  return await db.listCollections().toArray();
+module.exports.closeDb = async () => {
+  console.log('Disconnecting from db...')
+  if (client) client.close()
 }
-
