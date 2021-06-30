@@ -29,8 +29,8 @@ module.exports.getDb = async () => {
     useUnifiedTopology: true
   })
   await client.connect()
-  db = client.db(dbName)
-  return db
+  client = client.db(dbName)
+  return client
 }
 
 module.exports.closeDb = async () => {
