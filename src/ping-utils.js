@@ -14,11 +14,11 @@ const runExec = async (holoport) => {
   const command = `ssh root@${holoport.IP} -i ~/.ssh/id_ed25519 nixos-option system.holoNetwork | sed -n '2 p' | tr -d \\"`
 
   return new Promise(function(resolve, reject) {
-    const { stdout, stderr } = exec(command, { timeout: 2000 }, (error, stdout, stderr) => {
+    exec(command, { timeout: 4000 }, (error, stdout, stderr) => {
 
       let outcome = null
 
-      if (!stderr && !error) outcome = stdout.trim()
+      if (!error) outcome = stdout.trim()
 
       resolve({
         name: holoport.name,
