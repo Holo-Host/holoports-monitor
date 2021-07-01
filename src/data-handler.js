@@ -15,15 +15,12 @@ module.exports.getTestHoloports = async () => {
 
 module.exports.getHoloportDetails = async (holoports) => {
   let holoportDetails = []
-console.log(holoports)
-  const collection = await getCollection('latest_zt_snap ')
-  const cursor = await collection.find({"name": { $in: holoports}})
 
-  console.log(await cursor.count())
+  const collection = await getCollection('latest_zt_snap')
+  const cursor = await collection.find({ name: { $in: holoports } })
 
   await cursor.forEach((el) => {
-    console.log(el.physicalAddress)
-    holoportDetails.push({name: el.name, IP: el.physicalAddress})
+    holoportDetails.push({name: el.name, IP: el.physicalAddress}) // TODO: this has to be zt_address
   })
 
   return holoportDetails

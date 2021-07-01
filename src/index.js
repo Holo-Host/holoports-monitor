@@ -4,7 +4,6 @@ const { closeDb } = require('./database')
 
 async function run() {
   // Get all holoports registered for testing
-  // TODO - create collection in mongodb and populate with test values
   const testHoloports = await getTestHoloports()
 
   // Get their (and only their) {IP, name} from latest_zt_snap
@@ -12,7 +11,6 @@ async function run() {
 
   // Then filter out stale or incorrect entries
   // TODO - why is data duplicated and what is invalid data?
-/*
   const holoportDetailsFiltered = [
     { name: "dead_one", IP: "172.26.29.51" },
     { name: "5j60okm4zt9elo8gu5u4qgh2bv3gusdo7uo48nwdb2d18wk59h", IP: "172.26.29.50" },
@@ -28,7 +26,6 @@ async function run() {
   for (const el of pingResults) {
     console.log(el)
   }
-*/
 }
 
 run()
