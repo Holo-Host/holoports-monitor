@@ -28,11 +28,12 @@ module.exports.getHoloportDetails = async (holoports) => {
 
 module.exports.insertPingResults = async (pingResults) => {
   const collection = await getCollection('test_holoports_ping_result')
-  let abba = await collection.insertMany(pingResults)
-  console.log(abba)
+  const response = await collection.insertMany(pingResults)
+  console.log(`Saving ${response.insertedCount} ping results in database`)
 }
 
   // TODO - why is data duplicated and what is invalid data?
+  //        Perform actual data clean-up
 module.exports.cleanUpHoloportList = async (holoportDetails) => {
   return [
     { name: "dead_one", IP: "172.26.29.51" },

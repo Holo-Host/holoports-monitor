@@ -1,23 +1,23 @@
 const exec = require('child_process').exec
 
-module.exports.getAllPingResults = async (holoports) => {
-  let arr = []
-  // Convert array of holoports into array of promisses each resolving to ping-result-object
-  for (const holoport of holoports) {
-    arr.push(runExec(holoport))
-  }
+const yargs = require('yargs/yargs')
+const { hideBin } = require('yargs/helpers')
+const argv = yargs(hideBin(process.argv)).argv
 
-  return await Promise.all(arr)
+module.exports.getAllPingResults = async (holoports) => {
+  // Convert array of holoports into array of promisses each resolving to ping-result-object
+  return await Promise.all(holoports.map((hp) => runExec(hp)))
 }
 
 const runExec = async (holoport) => {
-  const command = `ssh root@${holoport.IP} -i ~/.ssh/id_ed25519 nixos-option system.holoNetwork | sed -n '2 p' | tr -d \\"`
+  if (!argv.sshKeyPath)
+    throw new Error('hosted-happ-monitor requires --ssh-key-path option.')
+
+  const command = `ssh root@${holoport.IP} -i ${argv.sshKeyPath} nixos-option system.holoNetwork | sed -n '2 p' | tr -d \\"`
 
   return new Promise(function(resolve, reject) {
     exec(command, { timeout: 4000 }, (error, stdout, stderr) => {
-
       let outcome = null
-
       if (!error) outcome = stdout.trim()
 
       resolve({
