@@ -2,11 +2,14 @@ const path = require("path");
 
 module.exports = {
   output: {
-    filename: "main.js",
+    filename: "[name].js",
     path: path.resolve(__dirname, "dist"),
 
   },
-  entry: ["./src/index.js"],
+  entry: {
+    pingCheck: "./src/index.js",
+    channelSwitch: "./src/switcher.js"
+},
   module: {
     rules: [
       { test: /\.js$/, include: /node_modules/, type: "javascript/auto" },

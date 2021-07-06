@@ -16,11 +16,11 @@ module.exports.getTestHoloports = async () => {
 module.exports.getHoloportDetails = async (holoports) => {
   let holoportDetails = []
 
-  const collection = await getCollection('latest_zt_snap')
+  const collection = await getCollection('performance_summary')
   const cursor = await collection.find({ name: { $in: holoports } })
 
   await cursor.forEach((el) => {
-    holoportDetails.push({name: el.name, IP: el.physicalAddress}) // TODO: this has to be zt_address
+    holoportDetails.push({name: el.name, IP: el.zt_ipaddress})
   })
 
   return holoportDetails
@@ -32,15 +32,14 @@ module.exports.insertPingResults = async (pingResults) => {
   console.log(`Saving ${response.insertedCount} ping results in database`)
 }
 
-  // TODO - why is data duplicated and what is invalid data?
-  //        Perform actual data clean-up
-module.exports.cleanUpHoloportList = async (holoportDetails) => {
-  return [
-    { name: "dead_one", IP: "172.26.29.51" },
-    { name: "5j60okm4zt9elo8gu5u4qgh2bv3gusdo7uo48nwdb2d18wk59h", IP: "172.26.29.50" },
-    { name: "rkbpxayrx3b9mrslvp26oz88rw36wzltxaklm00czl5u5mx1w", IP: "172.26.134.99"}
-  ]
-}
+// Not currently needed
+// module.exports.cleanUpHoloportList = async (holoportDetails) => {
+//   return [
+//     { name: "dead_one", IP: "172.26.29.51" },
+//     { name: "5j60okm4zt9elo8gu5u4qgh2bv3gusdo7uo48nwdb2d18wk59h", IP: "172.26.29.50" },
+//     { name: "rkbpxayrx3b9mrslvp26oz88rw36wzltxaklm00czl5u5mx1w", IP: "172.26.134.99"}
+//   ]
+// }
 
 getCollection = async (name) => {
   db = await getDb()
