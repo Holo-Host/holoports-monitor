@@ -7,7 +7,7 @@ module.exports.getTestHoloports = async () => {
   const cursor = await collection.find({})
 
   await cursor.forEach((el) => {
-    testHoloports.push(el.name)
+    if (el.enabled) testHoloports.push(el.name)
   })
 
   return testHoloports
@@ -30,6 +30,15 @@ module.exports.insertPingResults = async (pingResults) => {
   const collection = await getCollection('test_holoports_ping_result')
   const response = await collection.insertMany(pingResults)
   console.log(`Saving ${response.insertedCount} ping results in database`)
+}
+
+module.exports.disableUnswitchedHoloports = async (switchResults) => {
+  const collection = await getCollection('test_holoports')
+  const unswitchedHoloports = switchResults.map(a => a.name)
+  const filter = {name:{$in: unswitchedHoloports}} 
+  const update = { $set : {enabled : false } }
+  const response = await collection.updateMany(filter, update)
+  console.log(`Update ${response.modifiedCount} holoport records in database`)
 }
 
 // Not currently needed
