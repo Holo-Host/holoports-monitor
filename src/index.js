@@ -10,7 +10,6 @@ async function run() {
   const holoportDetails = await getHoloportDetails(testHoloports)
 
   // Then filter out stale or incorrect entries
-  // const holoportDetailsFiltered = await cleanUpHoloportList(holoportDetails)
 
   // Then loop through IPs and ssh-ping and record outcome
   // in a truly async style
