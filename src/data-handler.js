@@ -23,6 +23,9 @@ module.exports.getHoloportDetails = async (holoports) => {
     holoportDetails.push({name: el.name, IP: el.zt_ipaddress})
   })
 
+  const retrieved_hps = holoportDetails.map(a => a.name)
+  console.log("Missing holoports are \n:", holoports.filter(e => !retrieved_hps.includes(e)) )
+
   return holoportDetails
 }
 
@@ -45,3 +48,21 @@ getCollection = async (name) => {
   db = await getDb()
   return await db.collection(name);
 }
+
+
+// {
+//   _id: { name: "$name", IP:"$IP"},
+//   holoNet: {$last: "$holoNet"},
+//   sshEntries: { 
+//     $push:  { 
+//       timestamp: {
+//         $toDate: "$timestamp"
+//       }, 
+//       success: "$success" 
+//       }
+//     }
+//  }
+
+//  {
+//   timestamp: 1
+// }

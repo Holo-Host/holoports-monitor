@@ -9,8 +9,6 @@ async function run() {
   // Get their (and only their) {IP, name} from latest_zt_snap
   const holoportDetails = await getHoloportDetails(testHoloports)
 
-  // Then filter out stale or incorrect entries
-
   // Then loop through IPs and ssh-ping and record outcome
   // in a truly async style
   let pingResults = await getAllPingResults(holoportDetails, 'pingCheck')

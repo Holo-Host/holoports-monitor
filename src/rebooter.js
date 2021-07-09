@@ -1,4 +1,4 @@
-const { getTestHoloports, getHoloportDetails, disableUnswitchedHoloports } = require('./data-handler')
+const { getTestHoloports, getHoloportDetails } = require('./data-handler')
 const { getAllPingResults } = require('./ping-utils')
 const { closeDb } = require('./database')
 
