@@ -4,7 +4,9 @@
   "description": "Script for testing uptime of holoports assigned for test",
   "main": "src/index.js",
   "bin": {
-    "test-holoports-monitor": "src/index.js"
+    "test-holoports-monitor": "src/index.js",
+    "test-holoports-switcher": "src/switcher.js",
+    "test-holoports-rebooter": "src/rebooter.js"
   },
   "repository": "https://github.com/Holo-Host/test-holoports-monitor.git",
   "author": "peeech <pj@imagine-nyc.com>",
@@ -14,7 +16,7 @@
     "build": "webpack --config webpack.config.cjs"
   },
   "dependencies": {
-    "mongodb": "^3.6.3",
+    "mongodb": "=3.6.3",
     "mongodb-client-encryption": "^1.2.5",
     "yargs": "^16.2.0"
   },
