@@ -17,5 +17,5 @@ module.exports = {
     ],
   },
   target: 'node',
-  mode: "development",
+  mode: "production",
 };
