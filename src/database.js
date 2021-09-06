@@ -18,12 +18,13 @@ module.exports.getDb = async () => {
   let credentials = await JSON.parse(data)
   const username = credentials.MONGO_USERNAME
   const password = credentials.MONGO_PASSWORD
+  const cluster = credentials.MONGO_CLUSTER
   const dbName = credentials.MONGO_DBNAME
 
   // Connection URL
-  const url = `mongodb+srv://${username}:${password}@cluster0.hjwna.mongodb.net/${dbName}?retryWrites=true&w=majority`
+  const url = `mongodb+srv://${username}:${password}@${cluster}.mongodb.net/${dbName}?retryWrites=true&w=majority`
 
-  // Open db connection and store it in global db (instanton pattern)
+  // Open db connection and store it in global db (singleton pattern)
   console.log('Connecting to db...')
   client = new MongoClient(url, {
     useUnifiedTopology: true

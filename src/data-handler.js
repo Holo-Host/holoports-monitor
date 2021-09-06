@@ -13,18 +13,21 @@ module.exports.getTestHoloports = async () => {
   return testHoloports
 }
 
-module.exports.getHoloportDetails = async (holoports) => {
+module.exports.getHoloportDetails = async (holoports = undefined) => {
   let holoportDetails = []
 
   const collection = await getCollection('performance_summary')
-  const cursor = await collection.find({ name: { $in: holoports } })
+  let searchParams = {}
+  if (!!holoports) searchParams = { name: { $in: holoports }}
 
+  const cursor = await collection.find(searchParams)
+  
   await cursor.forEach((el) => {
     holoportDetails.push({name: el.name, IP: el.zt_ipaddress})
   })
 
   const retrieved_hps = holoportDetails.map(a => a.name)
-  console.log("Missing holoports are \n:", holoports.filter(e => !retrieved_hps.includes(e)) )
+  if (!!holoports) console.log("Missing holoports are \n:", holoports.filter(e => !retrieved_hps.includes(e)) )
 
   return holoportDetails
 }
@@ -48,21 +51,3 @@ getCollection = async (name) => {
   db = await getDb()
   return await db.collection(name);
 }
-
-
-// {
-//   _id: { name: "$name", IP:"$IP"},
-//   holoNet: {$last: "$holoNet"},
-//   sshEntries: { 
-//     $push:  { 
-//       timestamp: {
-//         $toDate: "$timestamp"
-//       }, 
-//       success: "$success" 
-//       }
-//     }
-//  }
-
-//  {
-//   timestamp: 1
-// }

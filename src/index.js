@@ -4,10 +4,10 @@ const { closeDb } = require('./database')
 
 async function run() {
   // Get all holoports registered for testing
-  const testHoloports = await getTestHoloports()
+  // const testHoloports = await getTestHoloports()
 
   // Get their (and only their) {IP, name} from latest_zt_snap
-  const holoportDetails = await getHoloportDetails(testHoloports)
+  const holoportDetails = await getHoloportDetails()
 
   // Then loop through IPs and ssh-ping and record outcome
   // in a truly async style
