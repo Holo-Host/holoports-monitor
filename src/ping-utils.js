@@ -4,6 +4,9 @@ const yargs = require('yargs/yargs')
 const { hideBin } = require('yargs/helpers')
 const argv = yargs(hideBin(process.argv)).argv
 
+// Set one timestamp for all the calls
+const timestamp = Date.now()
+
 /**
  * Execute ssh command in an async way on multiple holoports
  * @param  {Array} holoports List of holoports in a format { IP, name }
@@ -14,9 +17,6 @@ module.exports.execSshCommand = async (holoports, command) => {
   // Check if ssh key path was passed to script
   if (!argv.sshKeyPath)
     throw new Error(`script requires --ssh-key-path option.`)
-
-  // Set one timestamp for all the calls
-  const timestamp = Date.now()
 
   // Convert array of holoports into array of promises each resolving to ping-result-object
   if(command === 'getStatus')

@@ -23,7 +23,7 @@ module.exports.getHoloportDetails = async (holoports = undefined) => {
   const cursor = await collection.find(searchParams)
 
   await cursor.forEach((el) => {
-    if (!el.zt_ipaddress.contains(172.26.)) continue
+    if (!el.zt_ipaddress.includes("172.26.")) return
     holoportDetails.push({name: el.name, IP: el.zt_ipaddress})
   })
 
@@ -34,7 +34,7 @@ module.exports.getHoloportDetails = async (holoports = undefined) => {
 }
 
 module.exports.insertPingResults = async (pingResults) => {
-  const collection = await getCollection('test_holoports_ping_result')
+  const collection = await getCollection('holoports_status')
   const response = await collection.insertMany(pingResults)
   console.log(`Saving ${response.insertedCount} ping results in database`)
 }
