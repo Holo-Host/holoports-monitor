@@ -11,7 +11,8 @@ const timestamp = Date.now()
  * Execute ssh command in an async way on multiple holoports
  * @param  {Array} holoports List of holoports in a format { IP, name }
  * @param  {String} command Name of the function to execute
- * @return {Promise} Promise that resolves to an outcome of a command execution on each holoport
+ * @return {Array} Array of results of executed commands in format
+ *         { status:"fulfilled", value: <Object> } or { status:"rejected", reason: <Object> }
  */
 module.exports.execSshCommand = async (holoports, command) => {
   // Check if ssh key path was passed to script

@@ -33,7 +33,7 @@ module.exports.getHoloportDetails = async (holoports = undefined) => {
   return holoportDetails
 }
 
-module.exports.insertPingResults = async (pingResults) => {
+module.exports.insertHolportsStatus = async (pingResults) => {
   const collection = await getCollection('holoports_status')
   const response = await collection.insertMany(pingResults)
   console.log(`Saving ${response.insertedCount} ping results in database`)
