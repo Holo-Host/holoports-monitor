@@ -3,9 +3,6 @@ const { getAllPingResults } = require('./ping-utils')
 const { closeDb } = require('./database')
 
 async function run() {
-  // Get all holoports registered for testing
-  // const testHoloports = await getTestHoloports()
-
   // Get their (and only their) {IP, name} from latest_zt_snap
   const holoportDetails = await getHoloportDetails()
 
