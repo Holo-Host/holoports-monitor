@@ -37,10 +37,10 @@ module.exports.execSshCommand = async (holoports, command) => {
  * @return {Promise} resolves to an object describing status of the holoport
  */
 const getStatus = async (hp) => {
+  // Note on timeouts: get-status.sh has 30s ssh timeout encoded. Make sure exec timeout here is set to more than 30s
   return new Promise(function(resolve, reject) {
-    exec(`./scripts/get-status.sh ${hp.IP} ${argv.sshKeyPath}`, { timeout: 30000 }, (error, stdout, stderr) => {
+    exec(`./scripts/get-status.sh ${hp.IP} ${argv.sshKeyPath}`, { timeout: 60000 }, (error, stdout, stderr) => {
       if (error) {
-        console.log(`Error for ${hp.IP}`)
         reject(
           {
             name: hp.name,
@@ -57,7 +57,6 @@ const getStatus = async (hp) => {
       } else {
         // parse stdout to get details
         const outcome = stdout.split(" ");
-        console.log(`Success for ${hp.IP}`)
         resolve({
           name: hp.name,
             IP: hp.IP,
@@ -65,8 +64,8 @@ const getStatus = async (hp) => {
             sshSuccess: true,
             holoNetwork: outcome[0],
             channel: outcome[1],
-            hostingInfo: outcome[2],
-            holoportModel: outcome[3],
+            holoportModel: outcome[2],
+            hostingInfo: outcome[3],
             error: null
         })
       }

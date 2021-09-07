@@ -7,7 +7,7 @@
 
 set -e
 
-ssh -o StrictHostKeychecking=no -o LogLevel=ERROR -o PasswordAuthentication=no root@$1 -i $2 bash <<EOF
+ssh -o BatchMode=yes -o ConnectTimeout=30 -o LogLevel=ERROR root@$1 -i $2 bash <<EOF
   network=\$(nixos-option system.holoNetwork 2>/dev/null | sed -n '2 p' | tr -d \")
   # if system.holoNetwork is not set then it has to be default network (alphaNet)
   if [[ -z "\$network" ]]; then
