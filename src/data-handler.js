@@ -21,8 +21,9 @@ module.exports.getHoloportDetails = async (holoports = undefined) => {
   if (!!holoports) searchParams = { name: { $in: holoports }}
 
   const cursor = await collection.find(searchParams)
-  
+
   await cursor.forEach((el) => {
+    console.log(el.zt_ipaddress)
     holoportDetails.push({name: el.name, IP: el.zt_ipaddress})
   })
 
@@ -41,7 +42,7 @@ module.exports.insertPingResults = async (pingResults) => {
 module.exports.disableUnswitchedHoloports = async (switchResults) => {
   const collection = await getCollection('test_holoports')
   const unswitchedHoloports = switchResults.map(a => a.name)
-  const filter = {name:{$in: unswitchedHoloports}} 
+  const filter = {name:{$in: unswitchedHoloports}}
   const update = { $set : {enabled : false } }
   const response = await collection.updateMany(filter, update)
   console.log(`Update ${response.modifiedCount} holoport records in database`)

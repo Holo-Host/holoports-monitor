@@ -1,5 +1,5 @@
 const { getTestHoloports, getHoloportDetails } = require('./data-handler')
-const { getAllPingResults } = require('./ping-utils')
+const { execSshCommand } = require('./ping-utils')
 const { closeDb } = require('./database')
 
 async function run() {
@@ -11,7 +11,7 @@ async function run() {
 
   // Then loop through IPs and ssh-ping and record outcome
   // in a truly async style
-  let rebootResults = await getAllPingResults(holoportDetails, 'rebootHoloports')
+  let rebootResults = await execSshCommand(holoportDetails, 'rebootHoloports')
   const failedSwitch = rebootResults.filter(function(hp){ return !hp.success })
   console.log(`Failed to reboot ${failedSwitch.length} holoports to channel`)
   console.log("Failed holoports are: \n", failedSwitch)

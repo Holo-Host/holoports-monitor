@@ -7,7 +7,7 @@ module.exports = {
 
   },
   entry: {
-    pingCheck: "./src/index.js",
+    getStatus: "./src/index.js",
     channelSwitch: "./src/switcher.js",
     rebooter: "./src/rebooter.js"
 },

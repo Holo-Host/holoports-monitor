@@ -1,17 +1,17 @@
 const { getTestHoloports, getHoloportDetails, insertPingResults } = require('./data-handler')
-const { getAllPingResults } = require('./ping-utils')
+const { execSshCommand } = require('./ping-utils')
 const { closeDb } = require('./database')
 
 async function run() {
-  // Get their (and only their) {IP, name} from latest_zt_snap
+  // Get {IP, name} of all holoports connected to zerotier
   const holoportDetails = await getHoloportDetails()
 
-  // Then loop through IPs and ssh-ping and record outcome
+  // Then loop through IPs and check their status via ssh
   // in a truly async style
-  let pingResults = await getAllPingResults(holoportDetails, 'pingCheck')
+  let statuses = await execSshCommand(holoportDetails, 'getStatus')
 
-  // Upload entries into collection test_holoports_ping_result
-  await insertPingResults(pingResults)
+  // Upload entries into collection holoports_status
+  await insertPingResults(statuses)
 }
 
 run()
