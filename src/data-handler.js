@@ -23,7 +23,7 @@ module.exports.getHoloportDetails = async (holoports = undefined) => {
   const cursor = await collection.find(searchParams)
 
   await cursor.forEach((el) => {
-    console.log(el.zt_ipaddress)
+    if (!el.zt_ipaddress.contains(172.26.)) continue
     holoportDetails.push({name: el.name, IP: el.zt_ipaddress})
   })
 

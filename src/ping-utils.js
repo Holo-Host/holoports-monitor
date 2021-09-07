@@ -13,9 +13,7 @@ const argv = yargs(hideBin(process.argv)).argv
 module.exports.execSshCommand = async (holoports, command) => {
   // Check if ssh key path was passed to script
   if (!argv.sshKeyPath)
-    return new Promise(function(_, reject) {
-      reject(`script requires --ssh-key-path option.`)
-    })
+    throw new Error(`script requires --ssh-key-path option.`)
 
   // Set one timestamp for all the calls
   const timestamp = Date.now()
@@ -28,9 +26,7 @@ module.exports.execSshCommand = async (holoports, command) => {
   else if(command === 'rebootHoloports')
     return await Promise.allSettled(holoports.map((hp) => rebootHoloports(hp)))
   else
-    return new Promise(function(_, reject) {
-      reject(`Unknown command: ${command}`)
-    })
+    throw new Error(`Unknown command: ${command}`)
 }
 
 /**
@@ -80,9 +76,7 @@ const getStatus = async (hp) => {
 const switchChannel = async (holoport) => {
   // Check if target-channel was passed to script
   if (!argv.targetChannel)
-    return new Promise(function(_, reject) {
-      reject(`switchChannel requires --target-channel option.`)
-    })
+    throw new Error(`switchChannel requires --target-channel option.`)
 
   const command = `ssh root@${holoport.IP} -i ${argv.sshKeyPath} hpos-update ${argv.targetChannel}`
 
