@@ -1,0 +1,9 @@
+body {
+  font: 0.85em Verdana;
+}
+
+#demo td {
+  text-overflow: ellipsis;
+  overflow: hidden;
+  white-space: nowrap;
+}
