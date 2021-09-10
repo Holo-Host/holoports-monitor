@@ -1,9 +1,32 @@
-body {
-  font: 0.85em Verdana;
+html {
+  height: 100%;
+  width: 100%;
+  border: none;
+  margin: 0;
 }
 
-#demo td {
+body {
+  font: 0.85em Verdana;
+  height: 100%;
+}
+
+td.too-long {
   text-overflow: ellipsis;
   overflow: hidden;
   white-space: nowrap;
+}
+
+.success {
+  color: #5ef904;
+  text-align: center;
+}
+
+.warning {
+  color: orangered;
+  cursor: pointer;
+  text-align: center;
+}
+
+.helpBtn {
+  display: none !important;
 }
