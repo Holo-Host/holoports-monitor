@@ -10,7 +10,8 @@ function getData() {
       holoportModel:"holoport-plus",
       hostingInfo:"{\"totalSourceChains\":0,\"currentTotalStorage\":0,\"usage\":{\"cpu\":0}}",
       error:null,
-      alphaTest: "yes"
+      alphaTest: true,
+      assignedTo: null
     },
     {
       name:"abba",
@@ -22,8 +23,8 @@ function getData() {
       holoportModel:"holoport",
       hostingInfo:"{\"totalSourceChains\":0,\"currentTotalStorage\":0,\"usage\":{\"cpu\":0}}",
       error:null,
-      alphaTest: "yes",
-      assigned: "Robbie"
+      alphaTest: true,
+      assignedTo: "Robbie"
     },
     {
       name:"led-zeppelin",
@@ -104,7 +105,7 @@ function printRow(hp) {
     <td title="${hp.holoportModel}">${hp.holoportModel}</td>
     <td title="${hp.totalSourceChains}">${hp.totalSourceChains}</td>
     <td>${(hp.alphaTest===undefined)?"":hp.alphaTest}</td>
-    <td>${(hp.assigned===undefined)?"":hp.assigned}</td>
+    <td>${(hp.assignedTo===undefined)?"":hp.assignedTo}</td>
   `;
   output += `</tr>`;
   return output;
