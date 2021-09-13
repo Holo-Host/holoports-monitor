@@ -1,4 +1,4 @@
-# test-holoports-monitor
+# holoports-monitor
 Script for monitoring status of holoports connected to zerotier network `93afae5963c547f1`.
 
 Reads list of holoports from `host_statistics.performance_summary` collection of mongoDB and stores status call outcome in `host_statistics.holoports_status`:
