@@ -1,5 +1,5 @@
 async function getData() {
-  const response = await fetch('http://network-statistics.holo.host/hosts/list');
+  const response = await fetch('https://network-statistics.holo.host/hosts/list');
 
   return response.json();
 }
