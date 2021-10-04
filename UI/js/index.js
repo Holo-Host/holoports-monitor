@@ -1,43 +1,7 @@
-function getData() {
-  return [
-    {
-      name:"5j60okm4zt9elo8gu5u4qgh2bv3gusdo7uo48nwdb2d18wk59h",
-      IP:"172.26.29.50",
-      timestamp:1631089852191,
-      sshSuccess:true,
-      holoNetwork:"flexNet",
-      channel:"923",
-      holoportModel:"holoport-plus",
-      hostingInfo:"{\"totalSourceChains\":0,\"currentTotalStorage\":0,\"usage\":{\"cpu\":0}}",
-      error:null,
-      alphaTest: true,
-      assignedTo: null
-    },
-    {
-      name:"abba",
-      IP:"172.26.1.2",
-      timestamp:1631089852191,
-      sshSuccess:true,
-      holoNetwork:"flexNet",
-      channel:"878",
-      holoportModel:"holoport",
-      hostingInfo:"{\"totalSourceChains\":0,\"currentTotalStorage\":0,\"usage\":{\"cpu\":0}}",
-      error:null,
-      alphaTest: true,
-      assignedTo: "Robbie"
-    },
-    {
-      name:"led-zeppelin",
-      IP:"172.26.1.3",
-      timestamp:1631089852191,
-      sshSuccess:false,
-      holoNetwork:null,
-      channel:null,
-      holoportModel:null,
-      hostingInfo:null,
-      error:"ssh: connect to host 172.26.205.227 port 22: Connection timed out"
-    },
-  ];
+async function getData() {
+  const response = await fetch('http://network-statistics.holo.host/hosts/list');
+
+  return response.json();
 }
 
 function timeSince(date) {
@@ -138,34 +102,35 @@ function buildTable(hps) {
   document.querySelector('#demo').innerHTML = innerHtml;
 }
 
-let hps = getData();
+getData()
+  .then(data => {
+    buildTable(data);
 
-buildTable(hps);
+    const filtersConfig = {
+        base_path: 'tablefilter/',
+        col_3: 'select',
+        col_4: 'select',
+        col_5: 'select',
+        col_6: 'select',
+        col_8: 'select',
+        col_9: 'select',
+        alternate_rows: true,
+        rows_counter: true,
+        mark_active_columns: true,
+        col_types: [
+            'string', 'string', 'number',
+            'string', 'string', 'string',
+            'string', 'string', 'string'
+        ],
+        col_widths: [
+            '120px', '120px', '100px',
+            '100px', '100px', '100px',
+            '120px', '100px', '100px',
+            '120px'
+        ],
+        extensions:[{ name: 'sort' }]
+    };
 
-const filtersConfig = {
-    base_path: 'tablefilter/',
-    col_3: 'select',
-    col_4: 'select',
-    col_5: 'select',
-    col_6: 'select',
-    col_8: 'select',
-    col_9: 'select',
-    alternate_rows: true,
-    rows_counter: true,
-    mark_active_columns: true,
-    col_types: [
-        'string', 'string', 'number',
-        'string', 'string', 'string',
-        'string', 'string', 'string'
-    ],
-    col_widths: [
-        '120px', '120px', '100px',
-        '100px', '100px', '100px',
-        '120px', '100px', '100px',
-        '120px'
-    ],
-    extensions:[{ name: 'sort' }]
-};
-
-const tf = new TableFilter('demo', filtersConfig);
-tf.init();
+    const tf = new TableFilter('demo', filtersConfig);
+    tf.init();
+  });
