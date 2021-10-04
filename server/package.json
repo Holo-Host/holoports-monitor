@@ -1,14 +1,14 @@
 {
-  "name": "test-holoports-monitor",
+  "name": "holoports-monitor",
   "version": "0.0.1",
   "description": "Script for testing uptime of holoports assigned for test",
   "main": "src/index.js",
   "bin": {
-    "test-holoports-monitor": "src/index.js",
-    "test-holoports-switcher": "src/switcher.js",
-    "test-holoports-rebooter": "src/rebooter.js"
+    "holoports-monitor": "src/index.js",
+    "holoports-switcher": "src/switcher.js",
+    "holoports-rebooter": "src/rebooter.js"
   },
-  "repository": "https://github.com/Holo-Host/test-holoports-monitor.git",
+  "repository": "https://github.com/Holo-Host/holoports-monitor.git",
   "author": "peeech <pj@imagine-nyc.com>",
   "license": "MIT",
   "scripts": {

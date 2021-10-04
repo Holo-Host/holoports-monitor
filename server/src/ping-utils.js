@@ -38,8 +38,9 @@ module.exports.execSshCommand = async (holoports, command) => {
  */
 const getStatus = async (hp) => {
   // Note on timeouts: get-status.sh has 30s ssh timeout encoded. Make sure exec timeout here is set to more than 30s
+  // Note on cwd: required for paths to work as expected in systemd service env
   return new Promise(function(resolve, reject) {
-    exec(`./scripts/get-status.sh ${hp.IP} ${argv.sshKeyPath}`, { timeout: 60000 }, (error, stdout, stderr) => {
+    exec(`./scripts/get-status.sh ${hp.IP} ${argv.sshKeyPath}`, { timeout: 60000, cwd: __dirname }, (error, stdout, stderr) => {
       if (error) {
         reject(
           {
