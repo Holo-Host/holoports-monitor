@@ -8,28 +8,11 @@
 set -e
 
 ssh -o BatchMode=yes -o ConnectTimeout=30 -o LogLevel=ERROR -o StrictHostKeyChecking=no root@$1 -i $2 bash <<EOF
-  network=\$(nixos-option system.holoNetwork 2>/dev/null | sed -n '2 p' | tr -d \")
-  # if system.holoNetwork is not set then it has to be default network (alphaNet)
-  if [[ -z "\$network" ]]; then
-    network="alphaNet"
-  fi
-
-  channel=\$(nix-channel --list | cut -d '/' -f 7)
-  if [[ -z "\$channel" ]]; then
-    channel="?"
-  fi
-
+  # run only on holoport-plus
   model=\$(nixos-option system.hpos.target 2>/dev/null | sed -n '2 p' | tr -d \")
-  if [[ -z "\$model" ]]; then
-    model="?"
+  if [[ "\$model" == "holoport-plus" ]]; then
+    ls -al /dev/disk/by-path/pci-0000\:00\:17.0-ata-1.0
+  else
+    exit 1
   fi
-
-  sc=\$(hpos-holochain-client --url=http://localhost/holochain-api dashboard 1 1)
-  # exclude errors etc
-  re='totalSourceChains'
-  if ! [[ \$sc =~ \$re ]] ; then
-    sc="?"
-  fi
-
-  echo "\$network \$channel \$model \$sc"
 EOF

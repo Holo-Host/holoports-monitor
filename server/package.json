@@ -4,9 +4,7 @@
   "description": "Script for testing uptime of holoports assigned for test",
   "main": "src/index.js",
   "bin": {
-    "holoports-monitor": "src/index.js",
-    "holoports-switcher": "src/switcher.js",
-    "holoports-rebooter": "src/rebooter.js"
+    "inspect-all": "src/index.js"
   },
   "repository": "https://github.com/Holo-Host/holoports-monitor.git",
   "author": "peeech <pj@imagine-nyc.com>",

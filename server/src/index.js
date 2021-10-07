@@ -1,4 +1,4 @@
-const { getTestHoloports, getHoloportDetails, insertHolportsStatus } = require('./data-handler')
+const { getHoloportDetails } = require('./data-handler')
 const { execSshCommand } = require('./ping-utils')
 const { closeDb } = require('./database')
 
@@ -15,13 +15,14 @@ async function run() {
     if (el.status === "rejected")
       return el.reason
     else if (el.status === "fulfilled")
+      console.log(el.value)
       return el.value
     else
       return null
   })
 
-  // Upload entries into collection holoports_status
-  await insertHolportsStatus(stats)
+  // print results
+  // stats.forEach(el => console.log(el))
 }
 
 run()
