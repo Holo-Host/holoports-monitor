@@ -7,9 +7,7 @@ module.exports = {
 
   },
   entry: {
-    getStatus: "./src/index.js",
-    channelSwitch: "./src/switcher.js",
-    rebooter: "./src/rebooter.js"
+    inspectAll: "./src/index.js",
 },
   module: {
     rules: [

@@ -8,20 +8,23 @@ async function run() {
 
   // Then loop through IPs and check their status via ssh
   // in a truly async style
-  let stats = await execSshCommand(holoportDetails, 'getStatus')
+  let stats = await execSshCommand(holoportDetails)
 
   // Format data
   stats = stats.map( el => {
     if (el.status === "rejected")
+      console.log(el.value.error)
       return el.reason
-    else if (el.status === "fulfilled")
-      console.log(el.value)
+    else if (el.status === "fulfilled") {
+      console.log(el.value.outcome)
       return el.value
+    }
     else
       return null
   })
 
   // print results
+  console.log(`Total: ${stats.length}`)
   // stats.forEach(el => console.log(el))
 }
 

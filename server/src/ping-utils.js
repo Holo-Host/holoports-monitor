@@ -20,6 +20,8 @@ module.exports.execSshCommand = async (holoports) => {
 
   // Convert array of holoports into array of promises each resolving to ping-result-object
   return await Promise.allSettled(holoports.map((hp) => getStatus(hp)))
+}
+
 
 /**
  * Gets status of holoports by executing an ssh command remotely.
@@ -46,7 +48,7 @@ const getStatus = async (hp) => {
         resolve({
           name: hp.name,
           IP: hp.IP,
-          outcome: outcome
+          outcome: stdout
         })
       }
     })
