@@ -13,7 +13,7 @@ async function run() {
   // Format data
   stats = stats.map( el => {
     if (el.status === "rejected") {
-      console.log(el.value.error)
+      console.log(el.reason.error)
       return el.reason
     }
     else if (el.status === "fulfilled") {
