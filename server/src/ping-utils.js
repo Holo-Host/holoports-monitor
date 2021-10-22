@@ -108,7 +108,6 @@ const rebootHoloports = async (holoport) => {
 
   return new Promise(function(resolve, reject) {
     exec(command, { timeout: 60000 }, (error, stdout, stderr) => {
-      if (error) {
       resolve({
         name: holoport.name,
         IP: holoport.IP,
