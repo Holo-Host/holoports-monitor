@@ -79,7 +79,7 @@ const switchChannel = async (holoport) => {
   if (!argv.targetChannel)
     throw new Error(`switchChannel requires --target-channel option.`)
 
-  const command = `ssh root@${holoport.IP} -i ${argv.sshKeyPath} hpos-update ${argv.targetChannel}`
+  const command = `ssh -o BatchMode=yes -o ConnectTimeout=30 -o LogLevel=ERROR -o StrictHostKeyChecking=no root@${holoport.IP} -i ${argv.sshKeyPath} hpos-update ${argv.targetChannel}`
 
   return new Promise(function(resolve, reject) {
     exec(command, { timeout: 4000 }, (error, stdout, stderr) => {
@@ -95,7 +95,7 @@ const switchChannel = async (holoport) => {
 
 // this will always error?
 const rebootHoloports = async (holoport) => {
-  const command = `ssh root@${holoport.IP} -i ${argv.sshKeyPath} "rm -rf /var/lib/holochain-rsm && rm -rf /var/lib/configure-holochain && reboot"`
+  const command = `ssh -o BatchMode=yes -o ConnectTimeout=30 -o LogLevel=ERROR -o StrictHostKeyChecking=no root@${holoport.IP} -i ${argv.sshKeyPath} "rm -rf /var/lib/holochain-rsm && rm -rf /var/lib/configure-holochain && reboot"`
 
   return new Promise(function(resolve, reject) {
     exec(command, { timeout: 4000 }, (error, stdout, stderr) => {

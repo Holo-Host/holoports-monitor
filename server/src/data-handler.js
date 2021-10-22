@@ -1,16 +1,25 @@
 const { getDb } = require('./database')
 
-module.exports.getTestHoloports = async () => {
-  let testHoloports = []
+// I'm sorry I don't know why we keep reading args into every file...
+const yargs = require('yargs/yargs')
+const { hideBin } = require('yargs/helpers')
+const argv = yargs(hideBin(process.argv)).argv
 
-  const collection = await getCollection('test_holoports')
+if (!argv.holoports_list)
+    throw new Error(`script requires --holoports-list option.`)
+
+
+module.exports.getHoloports = async (holoports_list) => {
+  let holoports = []
+
+  const collection = await getCollection(holoports_list)
   const cursor = await collection.find({})
 
   await cursor.forEach((el) => {
-    if (el.enabled) testHoloports.push(el.name)
+    if (el.enabled) holoports.push(el.name)
   })
 
-  return testHoloports
+  return holoports
 }
 
 module.exports.getHoloportDetails = async (holoports = undefined) => {
@@ -37,15 +46,6 @@ module.exports.insertHolportsStatus = async (pingResults) => {
   const collection = await getCollection('holoports_status')
   const response = await collection.insertMany(pingResults)
   console.log(`Saving ${response.insertedCount} ping results in database`)
-}
-
-module.exports.disableUnswitchedHoloports = async (switchResults) => {
-  const collection = await getCollection('test_holoports')
-  const unswitchedHoloports = switchResults.map(a => a.name)
-  const filter = {name:{$in: unswitchedHoloports}}
-  const update = { $set : {enabled : false } }
-  const response = await collection.updateMany(filter, update)
-  console.log(`Update ${response.modifiedCount} holoport records in database`)
 }
 
 getCollection = async (name) => {
