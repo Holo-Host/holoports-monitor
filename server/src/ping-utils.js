@@ -109,20 +109,12 @@ const rebootHoloports = async (holoport) => {
   return new Promise(function(resolve, reject) {
     exec(command, { timeout: 60000 }, (error, stdout, stderr) => {
       if (error) {
-        reject({
-          name: holoport.name,
-          IP: holoport.IP,
-          timestamp: Date.now(),
-          success: stderr,
-        })
-      } else {
-        resolve({
-          name: holoport.name,
-          IP: holoport.IP,
-          timestamp: Date.now(),
-          success: stderr.trim() === `Connection to ${holoport.IP} closed by remote host.`,
-        })
-      }
+      resolve({
+        name: holoport.name,
+        IP: holoport.IP,
+        timestamp: Date.now(),
+        success: stderr.trim() === `Connection to ${holoport.IP} closed by remote host.`,
+      })
     })
   })
 }
