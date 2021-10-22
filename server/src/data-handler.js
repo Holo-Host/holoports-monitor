@@ -9,10 +9,10 @@ if (!argv.holoportsList)
     throw new Error(`script requires --holoports-list option.`)
 
 
-module.exports.getHoloports = async (holoportsList) => {
+module.exports.getHoloports = async () => {
   let holoports = []
 
-  const collection = await getCollection(holoportsList)
+  const collection = await getCollection(argv.holoportsList)
   const cursor = await collection.find({})
 
   await cursor.forEach((el) => {
