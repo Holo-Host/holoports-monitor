@@ -5,12 +5,12 @@ const yargs = require('yargs/yargs')
 const { hideBin } = require('yargs/helpers')
 const argv = yargs(hideBin(process.argv)).argv
 
-if (!argv.holoportsList)
-    throw new Error(`script requires --holoports-list option.`)
-
 
 module.exports.getHoloports = async () => {
   let holoports = []
+
+  if (!argv.holoportsList)
+    throw new Error(`script requires --holoports-list option.`)
 
   const collection = await getCollection(argv.holoportsList)
   const cursor = await collection.find({})
