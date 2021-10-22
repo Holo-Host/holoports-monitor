@@ -82,13 +82,22 @@ const switchChannel = async (holoport) => {
   const command = `ssh -o BatchMode=yes -o ConnectTimeout=30 -o LogLevel=ERROR -o StrictHostKeyChecking=no root@${holoport.IP} -i ${argv.sshKeyPath} hpos-update ${argv.targetChannel}`
 
   return new Promise(function(resolve, reject) {
-    exec(command, { timeout: 4000 }, (error, stdout, stderr) => {
-      resolve({
-        name: holoport.name,
-        IP: holoport.IP,
-        timestamp: Date.now(),
-        success: stdout.trim() === `Switching HoloPort to channel: ${argv.targetChannel}`,
-      })
+    exec(command, { timeout: 60000 }, (error, stdout, stderr) => {
+      if (error) {
+        reject({
+          name: holoport.name,
+          IP: holoport.IP,
+          timestamp: Date.now(),
+          success: stderr,
+        })
+      } else {
+        resolve({
+          name: holoport.name,
+          IP: holoport.IP,
+          timestamp: Date.now(),
+          success: stdout.trim() === `Switching HoloPort to channel: ${argv.targetChannel}`,
+        })
+      }
     })
   })
 }
@@ -98,13 +107,22 @@ const rebootHoloports = async (holoport) => {
   const command = `ssh -o BatchMode=yes -o ConnectTimeout=30 -o LogLevel=ERROR -o StrictHostKeyChecking=no root@${holoport.IP} -i ${argv.sshKeyPath} "rm -rf /var/lib/holochain-rsm && rm -rf /var/lib/configure-holochain && reboot"`
 
   return new Promise(function(resolve, reject) {
-    exec(command, { timeout: 4000 }, (error, stdout, stderr) => {
-      resolve({
-        name: holoport.name,
-        IP: holoport.IP,
-        timestamp: Date.now(),
-        success: stderr.trim() === `Connection to ${holoport.IP} closed by remote host.`,
-      })
+    exec(command, { timeout: 60000 }, (error, stdout, stderr) => {
+      if (error) {
+        reject({
+          name: holoport.name,
+          IP: holoport.IP,
+          timestamp: Date.now(),
+          success: stderr,
+        })
+      } else {
+        resolve({
+          name: holoport.name,
+          IP: holoport.IP,
+          timestamp: Date.now(),
+          success: stderr.trim() === `Connection to ${holoport.IP} closed by remote host.`,
+        })
+      }
     })
   })
 }
