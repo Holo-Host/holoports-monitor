@@ -12,9 +12,19 @@ async function run() {
   // Then loop through IPs and ssh-ping and record outcome
   // in a truly async style
   let rebootResults = await execSshCommand(holoportDetails, 'rebootHoloports')
-  const failedSwitch = rebootResults.filter(function(hp){ return !hp.value.success})
-  console.log(`Failed to reboot ${failedSwitch.length} holoports`)
-  console.log("Failed holoports are: \n", failedSwitch)
+
+  rebootResults = rebootResults.map( el => {
+    if (el.status === "rejected")
+      return el.reason
+    else if (el.status === "fulfilled")
+      return el.value
+    else
+      return null
+  })
+
+  // const failedSwitch = rebootResults.filter(function(hp){ return !hp.value.success})
+  // console.log(`Failed to reboot ${failedSwitch.length} holoports`)
+  console.log("Failed holoports are: \n", rebootResults)
 }
 
 run()

@@ -88,14 +88,14 @@ const switchChannel = async (holoport) => {
           name: holoport.name,
           IP: holoport.IP,
           timestamp: Date.now(),
-          success: stderr,
+          success: stderr.trim(),
         })
       } else {
         resolve({
           name: holoport.name,
           IP: holoport.IP,
           timestamp: Date.now(),
-          success: stdout.trim() === `Switching HoloPort to channel: ${argv.targetChannel}`,
+          success: stdout.trim(),
         })
       }
     })
@@ -108,12 +108,21 @@ const rebootHoloports = async (holoport) => {
 
   return new Promise(function(resolve, reject) {
     exec(command, { timeout: 60000 }, (error, stdout, stderr) => {
-      resolve({
-        name: holoport.name,
-        IP: holoport.IP,
-        timestamp: Date.now(),
-        success: stderr.trim() === `Connection to ${holoport.IP} closed by remote host.`,
-      })
+      if (error) {
+        reject({
+          name: holoport.name,
+          IP: holoport.IP,
+          timestamp: Date.now(),
+          success: stderr.trim(),
+        })
+      } else {
+        resolve({
+          name: holoport.name,
+          IP: holoport.IP,
+          timestamp: Date.now(),
+          success: stdout.trim(),
+        })
+      }
     })
   })
 }

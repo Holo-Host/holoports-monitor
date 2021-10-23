@@ -12,9 +12,20 @@ async function run() {
   // Then loop through IPs and ssh-ping and record outcome
   // in a truly async style
   let channelSwitchResults = await execSshCommand(holoportDetails, 'switchChannel')
-  const failedSwitch = channelSwitchResults.filter(function(hp){ return !hp.success })
-  console.log(`Failed to switch ${failedSwitch.length} holoports to channel`)
-  console.log("Unswitched holoports are: \n", failedSwitch)
+
+  // Format data
+  channelSwitchResults = channelSwitchResults.map( el => {
+    if (el.status === "rejected")
+      return el.reason
+    else if (el.status === "fulfilled")
+      return el.value
+    else
+      return null
+  })
+
+  // const failedSwitch = channelSwitchResults.filter(function(el){ return !el.success })
+  console.log(`Failed to switch ${channelSwitchResults.length} holoports to channel`)
+  console.log("Unswitched holoports are: \n", channelSwitchResults)
   // await disableUnswitchedHoloports(failedSwitch)
 }
 
