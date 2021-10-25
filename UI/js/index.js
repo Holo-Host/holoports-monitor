@@ -123,7 +123,7 @@ getData()
             'string', 'string', 'string'
         ],
         col_widths: [
-            '120px', '120px', '100px',
+            '500px', '120px', '100px',
             '100px', '100px', '100px',
             '120px', '100px', '100px',
             '120px'

@@ -12,7 +12,7 @@ body {
 
 td.too-long {
   text-overflow: ellipsis;
-  overflow: hidden;
+  /* overflow: hidden; */
   white-space: nowrap;
 }
 
