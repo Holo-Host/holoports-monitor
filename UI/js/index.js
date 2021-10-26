@@ -1,9 +1,12 @@
 async function getData() {
-  let availableHoloportsDetails = await fetch('https://network-statistics.holo.host/hosts/list');
-  const registeredHoloportsList = await fetch('https://network-statistics.holo.host/hosts/registered')
-  const availableHoloportsList = availableHoloportsDetails.map(hp => hp._id)
+  const availableHoloportsResponse = await fetch('https://network-statistics.holo.host/hosts/list');
+  let availableHoloportsDetails = await availableHoloportsResponse.json()
   
-  let missingHoloports = registeredHoloportsList.filter(hp => !availableHoloportsList.includes(hp))
+  const registeredHoloportsResponse = await fetch('https://network-statistics.holo.host/hosts/registered');
+  let registeredHoloportsList = await registeredHoloportsResponse.json()
+  
+  const availableHoloportsList = availableHoloportsDetails.map(hp => hp._id)
+  const missingHoloports = registeredHoloportsList.filter(hp => !availableHoloportsList.includes(hp))
 
   for (const holoport of missingHoloports) {
     const entry = {
@@ -18,10 +21,10 @@ async function getData() {
       error: null,
     }
 
-    availableHoloportsDetails.append(entry)
+    availableHoloportsDetails.push(entry)
   }
 
-  return availableHoloportsDetails.json();
+  return availableHoloportsDetails;
 }
 
 function timeSince(date) {
