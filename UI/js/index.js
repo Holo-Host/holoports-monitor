@@ -1,7 +1,30 @@
 async function getData() {
-  const response = await fetch('https://network-statistics.holo.host/hosts/list');
+  const availableHoloportsResponse = await fetch('https://network-statistics.holo.host/hosts/list');
+  let availableHoloportsDetails = await availableHoloportsResponse.json()
+  
+  const registeredHoloportsResponse = await fetch('https://network-statistics.holo.host/hosts/registered');
+  let registeredHoloportsList = await registeredHoloportsResponse.json()
+  
+  const availableHoloportsList = availableHoloportsDetails.map(hp => hp._id)
+  const missingHoloports = registeredHoloportsList.filter(hp => !availableHoloportsList.includes(hp))
 
-  return response.json();
+  for (const holoport of missingHoloports) {
+    const entry = {
+      _id: holoport,
+      IP: null,
+      timestamp: 0,
+      sshSuccess: false,
+      holoNetwork: null,
+      channel: null,
+      hostingInfo: null,
+      holoportModel: null,
+      error: null,
+    }
+
+    availableHoloportsDetails.push(entry)
+  }
+
+  return availableHoloportsDetails;
 }
 
 function timeSince(date) {
@@ -60,7 +83,7 @@ function printRow(hp) {
   }
 
   output += `
-    <td class="too-long" title="${hp.name}">${hp.name}</td>
+    <td class="too-long" title="${hp._id}">${hp._id}</td>
     <td>${hp.IP}</td>
     <td>${hp.timestamp}</td>
     <td title="${hp.error}">${successCheck}</td>
@@ -123,7 +146,7 @@ getData()
             'string', 'string', 'string'
         ],
         col_widths: [
-            '120px', '120px', '100px',
+            '500px', '120px', '100px',
             '100px', '100px', '100px',
             '120px', '100px', '100px',
             '120px'
