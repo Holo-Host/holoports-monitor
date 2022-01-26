@@ -19,7 +19,7 @@ module.exports.getDb = async () => {
   const username = credentials.MONGO_USERNAME
   const password = credentials.MONGO_PASSWORD
   const cluster = credentials.MONGO_CLUSTER
-  const dbName = credentials.MONGO_DBNAME
+  const dbName = credentials.MONGO_DBNAME_STATS
 
   // Connection URL
   const url = `mongodb+srv://${username}:${password}@${cluster}.mongodb.net/${dbName}?retryWrites=true&w=majority`

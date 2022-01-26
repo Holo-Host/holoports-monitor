@@ -91,8 +91,8 @@ function printRow(hp) {
     <td>${hp.channel}</td>
     <td title="${hp.holoportModel}">${hp.holoportModel}</td>
     <td title="${hp.totalSourceChains}">${hp.totalSourceChains}</td>
-    <td>${(hp.alphaTest===undefined)?"":hp.alphaTest}</td>
-    <td>${(hp.assignedTo===undefined)?"":hp.assignedTo}</td>
+    <td>${(hp.alphaProgram===undefined)?"?":hp.alphaProgram}</td>
+    <td>${(hp.assignedTo===undefined)?"?":hp.assignedTo}</td>
   `;
   output += `</tr>`;
   return output;
