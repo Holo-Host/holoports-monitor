@@ -1,5 +1,5 @@
 async function getData() {
-  const availableHoloportsResponse = await fetch('https://network-statistics.holo.host/hosts/list_available?days=7');
+  const availableHoloportsResponse = await fetch('https://network-statistics.holo.host/hosts/list-available?days=7');
   let availableHoloportsDetails = await availableHoloportsResponse.json()
   
   const registeredHoloportsResponse = await fetch('https://network-statistics.holo.host/hosts/registered?days=7');
