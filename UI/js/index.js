@@ -1,8 +1,8 @@
 async function getData() {
-  const availableHoloportsResponse = await fetch('https://network-statistics.holo.host/hosts/list');
+  const availableHoloportsResponse = await fetch('https://network-statistics.holo.host/hosts/list-available?days=7');
   let availableHoloportsDetails = await availableHoloportsResponse.json()
   
-  const registeredHoloportsResponse = await fetch('https://network-statistics.holo.host/hosts/registered');
+  const registeredHoloportsResponse = await fetch('https://network-statistics.holo.host/hosts/registered?days=7');
   let registeredHoloportsList = await registeredHoloportsResponse.json()
   
   const availableHoloportsList = availableHoloportsDetails.map(hp => hp._id)
@@ -110,7 +110,7 @@ function buildTable(hps) {
           <th>Channel</th>
           <th>Model</th>
           <th>Total Source Chains</th>
-          <th>Alpha tests</th>
+          <th>Alpha Program</th>
           <th>Assigned to</th>
       </tr>
     </thead>
