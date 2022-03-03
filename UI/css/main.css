@@ -30,3 +30,7 @@ td.too-long {
 .helpBtn {
   display: none !important;
 }
+
+table.TF td {
+  text-align: center;
+}
