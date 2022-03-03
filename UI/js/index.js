@@ -1,10 +1,10 @@
 async function getData() {
   const availableHoloportsResponse = await fetch('https://network-statistics.holo.host/hosts/list-available?days=7');
   let availableHoloportsDetails = await availableHoloportsResponse.json()
-  
+
   const registeredHoloportsResponse = await fetch('https://network-statistics.holo.host/hosts/registered?days=7');
   let registeredHoloportsList = await registeredHoloportsResponse.json()
-  
+
   const availableHoloportsList = availableHoloportsDetails.map(hp => hp._id)
   const missingHoloports = registeredHoloportsList.filter(hp => !availableHoloportsList.includes(hp))
 
@@ -28,7 +28,7 @@ async function getData() {
 }
 
 function timeSince(date) {
-  const seconds = Math.floor((new Date() - date) / 1000);
+  const seconds = Math.floor(new Date() / 1000) - date;
   let interval = seconds / 31536000;
 
   if (interval > 1) {
@@ -48,9 +48,9 @@ function timeSince(date) {
   }
   interval = seconds / 60;
   if (interval > 1) {
-    return Math.floor(interval) + " minutes";
+    return Math.floor(interval) + " min";
   }
-  return Math.floor(seconds) + " seconds";
+  return Math.floor(seconds) + " sec";
 }
 
 function getSourceChains(hostingInfo) {
@@ -67,12 +67,11 @@ function getSourceChains(hostingInfo) {
 }
 
 function printRow(hp) {
-  let output = `<tr>`;
   hp.timestamp = timeSince(hp.timestamp) + ` ago`;
   hp.totalSourceChains = getSourceChains(hp.hostingInfo);
 
   let successCheck;
-  if (hp.sshSuccess) {
+  if (hp.sshStatus) {
     successCheck = `<div class="success">&#x2714</div>`;
   } else {
     successCheck = `<div class="warning">&#9888</div>`;
@@ -82,20 +81,18 @@ function printRow(hp) {
     hp[key] = (hp[key]===null)?"-":hp[key];
   }
 
-  output += `
-    <td class="too-long" title="${hp._id}">${hp._id}</td>
-    <td>${hp.IP}</td>
-    <td>${hp.timestamp}</td>
-    <td title="${hp.error}">${successCheck}</td>
-    <td>${hp.holoNetwork}</td>
-    <td>${hp.channel}</td>
-    <td title="${hp.holoportModel}">${hp.holoportModel}</td>
-    <td title="${hp.totalSourceChains}">${hp.totalSourceChains}</td>
-    <td>${(hp.alphaProgram===undefined)?"?":hp.alphaProgram}</td>
-    <td>${(hp.assignedTo===undefined)?"?":hp.assignedTo}</td>
+  return `
+    <tr>
+      <td class="too-long" title="${hp.holoportId}">${hp.holoportId}</td>
+      <td>${hp.ztIp}</td>
+      <td>${hp.timestamp}</td>
+      <td title="${hp.error}">${successCheck}</td>
+      <td>${hp.holoNetwork}</td>
+      <td>${hp.channel}</td>
+      <td title="${hp.holoportModel}">${hp.holoportModel}</td>
+      <td title="${hp.totalSourceChains}">${hp.totalSourceChains}</td>
+    </tr>
   `;
-  output += `</tr>`;
-  return output;
 }
 
 function buildTable(hps) {
@@ -105,13 +102,11 @@ function buildTable(hps) {
           <th>Name</th>
           <th>Zerotier IP</th>
           <th>Timestamp</th>
-          <th>Ssh Success</th>
+          <th>Sends stats</th>
           <th>Holo Network</th>
           <th>Channel</th>
           <th>Model</th>
           <th>Total Source Chains</th>
-          <th>Alpha Program</th>
-          <th>Assigned to</th>
       </tr>
     </thead>
   <tbody>`;
@@ -135,21 +130,18 @@ getData()
         col_4: 'select',
         col_5: 'select',
         col_6: 'select',
-        col_8: 'select',
-        col_9: 'select',
         alternate_rows: true,
         rows_counter: true,
         mark_active_columns: true,
         col_types: [
-            'string', 'string', 'number',
             'string', 'string', 'string',
-            'string', 'string', 'string'
+            'string', 'string', 'string',
+            'string', 'string'
         ],
         col_widths: [
-            '500px', '120px', '100px',
+            '450px', '130px', '100px',
             '100px', '100px', '100px',
-            '120px', '100px', '100px',
-            '120px'
+            '120px', '100px'
         ],
         extensions:[{ name: 'sort' }]
     };
