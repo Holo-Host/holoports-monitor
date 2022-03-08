@@ -1,29 +1,6 @@
 async function getData() {
   const availableHoloportsResponse = await fetch('https://network-statistics.holo.host/hosts/list-available?days=7');
   let availableHoloportsDetails = await availableHoloportsResponse.json()
-
-  const registeredHoloportsResponse = await fetch('https://network-statistics.holo.host/hosts/registered?days=7');
-  let registeredHoloportsList = await registeredHoloportsResponse.json()
-
-  const availableHoloportsList = availableHoloportsDetails.map(hp => hp._id)
-  const missingHoloports = registeredHoloportsList.filter(hp => !availableHoloportsList.includes(hp))
-
-  for (const holoport of missingHoloports) {
-    const entry = {
-      _id: holoport,
-      IP: null,
-      timestamp: 0,
-      sshSuccess: false,
-      holoNetwork: null,
-      channel: null,
-      hostingInfo: null,
-      holoportModel: null,
-      error: null,
-    }
-
-    availableHoloportsDetails.push(entry)
-  }
-
   return availableHoloportsDetails;
 }
 
@@ -83,10 +60,9 @@ function printRow(hp) {
 
   return `
     <tr>
-      <td class="too-long" title="${hp.holoportId}">${hp.holoportId}</td>
+      <td class="too-long" title="${hp._id}">${hp._id}</td>
       <td>${hp.ztIp}</td>
       <td>${hp.timestamp}</td>
-      <td title="${hp.error}">${successCheck}</td>
       <td>${hp.holoNetwork}</td>
       <td>${hp.channel}</td>
       <td title="${hp.holoportModel}">${hp.holoportModel}</td>
@@ -99,10 +75,9 @@ function buildTable(hps) {
   let innerHtml = `
     <thead>
       <tr>
-          <th>Name</th>
+          <th>HoloPort Id</th>
           <th>Zerotier IP</th>
           <th>Timestamp</th>
-          <th>Sends stats</th>
           <th>Holo Network</th>
           <th>Channel</th>
           <th>Model</th>
