@@ -60,7 +60,7 @@ function printRow(hp) {
 
   return `
     <tr>
-      <td class="too-long" title="${hp._id}">${hp._id}</td>
+      <td class="too-long" title="${hp.holoportId}">${hp.holoportId}</td>
       <td>${hp.ztIp}</td>
       <td>${hp.timestamp}</td>
       <td>${hp.holoNetwork}</td>
@@ -81,7 +81,7 @@ function buildTable(hps) {
           <th>Holo Network</th>
           <th>Channel</th>
           <th>Model</th>
-          <th>Total Source Chains</th>
+          <th>Total Source Chains</th>  
       </tr>
     </thead>
   <tbody>`;
