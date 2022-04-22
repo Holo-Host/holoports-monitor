@@ -66,7 +66,8 @@ function printRow(hp) {
       <td>${hp.holoNetwork}</td>
       <td>${hp.channel}</td>
       <td title="${hp.holoportModel}">${hp.holoportModel}</td>
-      <td title="${hp.totalSourceChains}">${hp.totalSourceChains}</td>
+      <td title="${hp.channelVersion}">${hp.channelVersion}</td>
+      <td title="${hp.hposVersion}">${hp.hposVersion}</td>
     </tr>
   `;
 }
@@ -81,7 +82,8 @@ function buildTable(hps) {
           <th>Holo Network</th>
           <th>Channel</th>
           <th>Model</th>
-          <th>Total Source Chains</th>  
+          <th>Channel Version</th>
+          <th>HPOS Version</th>   
       </tr>
     </thead>
   <tbody>`;
@@ -105,18 +107,19 @@ getData()
         col_4: 'select',
         col_5: 'select',
         col_6: 'select',
+        col_7: 'select',
         alternate_rows: true,
         rows_counter: true,
         mark_active_columns: true,
         col_types: [
             'string', 'string', 'string',
             'string', 'string', 'string',
-            'string', 'string'
+            'string', 'string', 'string'
         ],
         col_widths: [
             '450px', '130px', '100px',
             '100px', '100px', '100px',
-            '120px', '100px'
+            '120px', '100px', '120px'
         ],
         extensions:[{ name: 'sort' }]
     };
