@@ -18,7 +18,6 @@ module.exports.getHoloports = async () => {
   await cursor.forEach((el) => {
     if (el.enabled) holoports.push(el.name)
   })
-
   return holoports
 }
 
