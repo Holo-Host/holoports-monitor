@@ -66,8 +66,8 @@ function printRow(hp) {
       <td>${hp.holoNetwork}</td>
       <td>${hp.channel}</td>
       <td title="${hp.holoportModel}">${hp.holoportModel}</td>
-      <td title="${hp.channelVersion}">${hp.channelVersion}</td>
-      <td title="${hp.hposVersion}">${hp.hposVersion}</td>
+      <td class="too-long" title="${hp.channelVersion}">${hp.channelVersion}</td>
+      <td class="too-long" title="${hp.hposVersion}">${hp.hposVersion}</td>
     </tr>
   `;
 }
