@@ -63,11 +63,12 @@ function printRow(hp) {
       <td class="too-long" title="${hp.holoportId}">${hp.holoportId}</td>
       <td>${hp.ztIp}</td>
       <td>${hp.timestamp}</td>
+      <td>${hp.sshStatus}</td>
       <td>${hp.holoNetwork}</td>
       <td>${hp.channel}</td>
       <td title="${hp.holoportModel}">${hp.holoportModel}</td>
-      <td class="too-long" title="${hp.channelVersion}">${hp.channelVersion}</td>
-      <td class="too-long" title="${hp.hposVersion}">${hp.hposVersion}</td>
+      <td class="too-long"><div>${hp.channelVersion}</div></td>
+      <td class="too-long"><div>${hp.hposVersion}</div></td>
     </tr>
   `;
 }
@@ -79,11 +80,12 @@ function buildTable(hps) {
           <th>HoloPort Id</th>
           <th>Zerotier IP</th>
           <th>Timestamp</th>
+          <th>SSH enabled</th>
           <th>Holo Network</th>
           <th>Channel</th>
           <th>Model</th>
           <th>Channel Version</th>
-          <th>HPOS Version</th>   
+          <th>HPOS Version</th>
       </tr>
     </thead>
   <tbody>`;
@@ -102,22 +104,23 @@ getData()
     buildTable(data);
 
     const filtersConfig = {
-        base_path: 'tablefilter/',
+        base_path: '/tablefilter/',
         col_3: 'select',
         col_4: 'select',
         col_5: 'select',
         col_6: 'select',
         col_7: 'select',
+        col_8: 'select',
         alternate_rows: true,
         rows_counter: true,
         mark_active_columns: true,
         col_types: [
-            'string', 'string', 'string',
+            'string', 'string', 'string', 'bool',
             'string', 'string', 'string',
             'string', 'string', 'string'
         ],
         col_widths: [
-            '450px', '130px', '100px',
+            '450px', '130px', '100px', '100px',
             '100px', '100px', '100px',
             '120px', '100px', '120px'
         ],
@@ -126,4 +129,5 @@ getData()
 
     const tf = new TableFilter('demo', filtersConfig);
     tf.init();
+    document.querySelector('#loading').remove();
   });

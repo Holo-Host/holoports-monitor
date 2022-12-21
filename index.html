@@ -2,12 +2,26 @@
 <html lang="en">
   <head>
       <meta charset="utf-8">
-      <title>Table of HoloPorts</title>
+      <title>Holoports monitor</title>
       <link href="css/main.css" rel="stylesheet">
   </head>
   <body>
-    <table id="demo">Loading holoports...</table>
-    <script src="tablefilter/tablefilter.js"></script>
-    <script src="js/index.js"></script>
+    <a href="/list/">List of Holoports</a>
+    <p>
+      Shows data reported by each Holoport via <em>netstatsd</em> service in form of a table with filters. Includes each holoport that reported it's status within last 24h and displays the most recent record. Under the hood queries collection <em>host_statistics.holoport_status</em>.
+    </p>
+    <p>
+      &nbsp;
+    </p>
+    <a href="/connection-tester/">Connectivity tester</a>
+    <p>
+      Tool for testing connection from browser to Holoport via Holo Networks: browser -> router-gateway -> zerotier-layer -> holoport.
+    </p>
+    <p>
+      Once started in the browser, script will query `hp-stats-api` for all the holoports on-line within last 60 min. Then script will try on each holoport to establish http connection with `https://<holoport_url>/` and to open a websocket with `wss://<holoport_url>/hosting/`. Script assumes 10s timeout.
+    </p>
+    <p>
+      Finally success rate is reported.
+    </p>
   </body>
 </html>

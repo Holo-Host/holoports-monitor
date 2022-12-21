@@ -12,8 +12,19 @@ body {
 
 td.too-long {
   text-overflow: ellipsis;
-  /* overflow: hidden; */
+  overflow: hidden;
   white-space: nowrap;
+}
+
+td.too-long:hover {
+  overflow: initial;
+}
+
+td.too-long:hover > div {
+  background: white;
+  position: absolute;
+  margin: -0.5em 0;
+  z-index: 1;
 }
 
 .success {
@@ -33,4 +44,13 @@ td.too-long {
 
 table.TF td {
   text-align: center;
+}
+
+.test-button {
+  border-radius: 7px;
+  background: #00bdff73;
+  padding: 6px 11px;
+  line-height: 4em;
+  color: #352e22;
+  cursor: pointer;
 }
