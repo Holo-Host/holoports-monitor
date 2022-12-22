@@ -13,7 +13,3 @@ Tool for testing connection from browser to Holoport via Holo Networks: browser 
 Once started in the browser, script will query `hp-stats-api` for all the holoports on-line within last 60 min. Then script will try on each holoport to establish http connection with `https://<holoport_url>/` and to open a websocket with `wss://<holoport_url>/hosting/`. Script assumes 10s timeout.
 
 Finally success rate is reported.
-
-
-TODO:
- - currently in hp-stats-api/list-available minimum granularity of a request is a day - therefore connection tester will call all the HPs available within last 24 h, not 60 min

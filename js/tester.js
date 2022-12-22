@@ -1,5 +1,5 @@
 /**
- * Query hp-stats-api for holoports that are on-line within last 1 day
+ * Query hp-stats-api for holoports that are on-line within last 60 min
  *
  * @returns {Array<Holoport>} list of holoports
  */
