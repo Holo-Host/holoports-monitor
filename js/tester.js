@@ -42,15 +42,34 @@ function formatUrl(hp) {
 }
 
 /**
- * Connect with holoports over HTTP protocol. Report success / failure.
+ *
+ * @param {Object} hp
+ * @returns {Promise} resolves on successful wss connection, rejects on error
+ */
+async function openWss(hp) {
+  return new Promise((resolve, reject) => {
+    const ws = new WebSocket(`wss://${formatUrl(hp)}/hosting/`, parseInt(Math.random()*100000));
+    ws.onopen = function() {
+      ws.close();
+      resolve();
+    };
+    ws.onerror = function() {
+      ws.close();
+      reject();
+    }
+  });
+}
+
+/**
+ * Connect to holoports over HTTP protocol. Report success / failure.
  *
  * @param {Array<Holoport>} hps Array of holoports to query
  * @param {Object} report Object containing success / failure statistics
  * @returns {Object} report
  */
-async function queryHoloports(hps, report) {
+async function httpToHoloports(hps, report) {
   // convert array to promise
-  hps = hps.map(hp => fetch(`https://${formatUrl(hp)}`)); // TODO: adjust timeout
+  hps = hps.map(hp => fetch(`https://${formatUrl(hp)}`)); // TODO: adjust timeout?
   let result = await Promise.allSettled(hps);
 
   // Analyze result
@@ -65,6 +84,35 @@ async function queryHoloports(hps, report) {
       return tot;
     }, 0),
     wssError: report.wssError,
+    httpFailures: [],
+    wssFailures: []
+  }
+}
+
+/**
+ * Connect to holoports over wss protocol. Report success / failure.
+ *
+ * @param {Array<Holoport>} hps Array of holoports to query
+ * @param {Object} report Object containing success / failure statistics
+ * @returns {Object} report
+ */
+ async function wssToHoloports(hps, report) {
+  // convert array to promise
+  hps = hps.map(hp => openWss(hp));
+  let result = await Promise.allSettled(hps);
+
+  // Analyze result
+  return {
+    httpSuccess: report.httpSuccess,
+    wssSuccess: report.wssSuccess + result.reduce((tot, el) => {
+      if (el.status === "fulfilled") tot++;
+      return tot;
+    }, 0),
+    httpError: report.httpError,
+    wssError: report.wssError + result.reduce((tot, el) => {
+      if (el.status === "rejected") tot++;
+      return tot;
+    }, 0),
     httpFailures: [],
     wssFailures: []
   }
@@ -90,19 +138,29 @@ async function startTest() {
   addText(resultWindow, `${allHoloports} HoloPorts reported to be online within last 60 minutes`);
   addText(resultWindow, "&#128640;");
 
+  // Number of Holoports contacted async simultaneously
+  // Here is the catch. We would love to send all the requests at the same time and just wait for the results.
+  // BUT we cannot do that. For some reason wss connections, even though initiated asynchronously are, will complete
+  // connection handshake on-at-the time. So if there's a long waiting line those at the end of line will timeout
+  // before the connection is even attempted.
+  // Seems that 10 is the right number for here for wss connections.
+  const chunk = 10;
   let i = 0;
-  const chunk = 100; // Number of Holoports contacted async simultaneously
 
   while (data.length > 0) {
     addText(resultWindow, `Checking ${i*chunk}..${Math.min((i+1)*chunk, allHoloports)} of ${allHoloports}`);
-    report = await queryHoloports(data.splice(-chunk, chunk), report);
+    const hpsChunk = data.splice(-chunk, chunk);
+    report = await httpToHoloports(hpsChunk, report);
+    report = await wssToHoloports(hpsChunk, report);
     i++;
   }
 
   // Print final report
   addText(resultWindow, "&#128640;");
-  addText(resultWindow, `Successfully connected to ${report.httpSuccess} holoports`);
-  addText(resultWindow, `Failed to connect to ${report.httpError} holoports`);
+  addText(resultWindow, `Successfully connected via HTTP to ${report.httpSuccess} holoports`);
+  addText(resultWindow, `Failed to connect via HTTP to ${report.httpError} holoports`);
+  addText(resultWindow, `Successfully opened wss connection with ${report.wssSuccess} holoports`);
+  addText(resultWindow, `Failed to open wss connection with ${report.wssError} holoports`);
   console.log(report)
 }
 
