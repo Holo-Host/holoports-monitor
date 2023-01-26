@@ -14,17 +14,11 @@ td.too-long {
   text-overflow: ellipsis;
   overflow: hidden;
   white-space: nowrap;
+  cursor: pointer;
 }
 
-td.too-long:hover {
-  overflow: initial;
-}
-
-td.too-long:hover > div {
-  background: white;
-  position: absolute;
-  margin: -0.5em 0;
-  z-index: 1;
+td.too-long > div:hover {
+  font-weight: bold;
 }
 
 .success {
@@ -36,6 +30,15 @@ td.too-long:hover > div {
   color: orangered;
   cursor: pointer;
   text-align: center;
+}
+
+.warning a {
+  color: inherit;
+  text-decoration: none;
+}
+
+.warning a:hover {
+  font-weight: bold;
 }
 
 .helpBtn {
@@ -52,5 +55,33 @@ table.TF td {
   padding: 8px 14px;
   line-height: 4em;
   color: #352e22;
+  cursor: pointer;
+}
+
+#table-container {
+  position: relative;
+}
+
+#modal {
+  display: none;
+  position: absolute;
+  top: 0;
+  height: 13em;
+  width: 40%;
+  margin: 0 auto;
+  padding: 3em;
+  background: white;
+  left: 30%;
+  border-radius: 10px;
+  border: solid 1px grey;
+}
+
+#modal-button {
+  border-radius: 2em;
+  position: absolute;
+  bottom: 3em;
+  right: 3em;
+  background: #fc471e;
+  padding: 0.7em 1.2em;
   cursor: pointer;
 }
