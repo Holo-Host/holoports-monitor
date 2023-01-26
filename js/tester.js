@@ -7,9 +7,9 @@ async function getData() {
   const availableHoloportsResponse = await fetch('https://network-statistics.holo.host/hosts/list-available?days=1');
   let availableHoloportsDetails = await availableHoloportsResponse.json()
 
-  // API returns entries from last 24h, while we want only last 60 min
-  const cutoffTimestamp = parseInt(Date.now()/1000) - 3600;
-  return availableHoloportsDetails.filter(el => el.timestamp >= cutoffTimestamp);
+  // const cutoffTimestamp = parseInt(Date.now()/1000) - 3600; // API returns entries from last 24h, while we want only last 60 min
+  // Return only holoports without errors
+  return availableHoloportsDetails.filter(el => el.errors.length === 0);
 }
 
 /**
