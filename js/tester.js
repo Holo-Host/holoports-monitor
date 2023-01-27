@@ -69,18 +69,18 @@ async function openWss(hp) {
  */
 async function httpToHoloports(hps, report) {
   // convert array to promise
-  hps = hps.map(hp => fetch(`https://${formatUrl(hp)}`)); // TODO: adjust timeout?
+  hps = hps.map(hp => fetch(`https://${formatUrl(hp)}`, {mode: 'no-cors'})); // TODO: adjust timeout?
   let result = await Promise.allSettled(hps);
 
   // Analyze result
   return {
     httpSuccess: report.httpSuccess + result.reduce((tot, el) => {
-      if (el.status === "fulfilled" && el.value.ok) tot++;
+      if (el.status === "fulfilled") tot++;
       return tot;
     }, 0),
     wssSuccess: report.wssSuccess,
     httpError: report.httpError + result.reduce((tot, el) => {
-      if (el.status === "rejected" || (el.status === "fulfilled" && !el.value.ok)) tot++;
+      if (el.status === "rejected") tot++;
       return tot;
     }, 0),
     wssError: report.wssError,
