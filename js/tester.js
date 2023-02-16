@@ -48,7 +48,7 @@ function formatUrl(hp) {
  */
 async function openWss(hp) {
   return new Promise((resolve, reject) => {
-    const ws = new WebSocket(`wss://${formatUrl(hp)}/hosting/`, parseInt(Math.random()*100000));
+    const ws = new WebSocket(`wss://${formatUrl(hp)}/hosting/`);
     ws.onopen = function() {
       ws.close();
       resolve();
