@@ -4,7 +4,7 @@
  * @returns {Array<Holoport>} list of holoports
  */
 async function getData() {
-  const availableHoloportsResponse = await fetch('https://network-statistics.holo.host/hosts/list-available?days=1');
+  const availableHoloportsResponse = await fetch('https://network-statistics.holo.host/hosts/list-available?hours=1');
   let availableHoloportsDetails = await availableHoloportsResponse.json()
 
   // const cutoffTimestamp = parseInt(Date.now()/1000) - 3600; // API returns entries from last 24h, while we want only last 60 min
@@ -48,7 +48,7 @@ function formatUrl(hp) {
  */
 async function openWss(hp) {
   return new Promise((resolve, reject) => {
-    const ws = new WebSocket(`wss://${formatUrl(hp)}/hosting/`, parseInt(Math.random()*100000));
+    const ws = new WebSocket(`wss://${formatUrl(hp)}/hosting/`);
     ws.onopen = function() {
       ws.close();
       resolve();
